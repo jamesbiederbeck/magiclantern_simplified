@@ -396,7 +396,8 @@ static void fps_read_current_timer_values();
     #define SENSOR_TIMING_TABLE MEM(0xce98)
     #define SENSOR_TIMING_TABLE_SIZE 350
     #define VIDEO_PARAMETERS_SRC_3 0x70C0C
-#elif defined(CONFIG_1300D)
+#elif defined(CONFIG_1300D) || defined(CONFIG_2000D)
+    /* 2000D: copied from 1300D, different sensor - unverified; FPS override is not enabled */
     #define TG_FREQ_BASE 28800000
     #undef FPS_TIMER_A_MIN
     #define FPS_TIMER_A_MIN (ZOOM ? 734 : MV1080 ? 546 : 576)

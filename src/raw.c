@@ -158,7 +158,7 @@ static volatile struct edmac_mmio *raw_lv_edmac = (struct edmac_mmio *)RAW_LV_ED
  * and http://a1ex.bitbucket.org/ML/states/ for state diagrams.
  */
 
-#if defined(CONFIG_5D2) || defined(CONFIG_50D) || defined(CONFIG_60D) || defined(CONFIG_550D) || defined(CONFIG_500D) || defined(CONFIG_600D) || defined(CONFIG_1100D) || defined(CONFIG_7D) || defined(CONFIG_1300D)
+#if defined(CONFIG_5D2) || defined(CONFIG_50D) || defined(CONFIG_60D) || defined(CONFIG_550D) || defined(CONFIG_500D) || defined(CONFIG_600D) || defined(CONFIG_1100D) || defined(CONFIG_7D) || defined(CONFIG_1300D) || defined(CONFIG_2000D)
 #define RAW_PHOTO_EDMAC 0xc0f04208
 #endif
 
@@ -310,7 +310,8 @@ static int get_default_white_level()
      -903, 10000,     2016, 10000,    6728, 10000
 #endif
 
-#ifdef CONFIG_1300D
+#if defined(CONFIG_1300D) || defined(CONFIG_2000D)
+    /* 2000D: PLACEHOLDER copied from 1300D (different sensor); take from LibRaw/Adobe before RAW use */
     #define CAM_COLORMATRIX1                       \
      6939, 10000,      -1016, 10000,    -886, 10000, \
     -4428, 10000,    12473, 10000,    2177, 10000, \
@@ -577,7 +578,8 @@ static int dynamic_ranges[] = {1146, 1139, 1116, 1061, 980, 898, 806, 728};
 static int dynamic_ranges[] = {1099, 1098, 1082, 1025, 965, 877, 784}; // No ISO 12800 available
 #endif
 
-#ifdef CONFIG_1300D
+#if defined(CONFIG_1300D) || defined(CONFIG_2000D)
+/* 2000D: PLACEHOLDER copied from 1300D */
 static int dynamic_ranges[] = {1112, 1080, 1038, 984, 917, 834, 733, 655};
 #endif
 

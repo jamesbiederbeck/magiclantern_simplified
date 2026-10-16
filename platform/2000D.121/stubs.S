@@ -43,28 +43,28 @@ NSTUB(0xFE12A098,  init_task)                               // 2000D: cstart lit
 // 1300D, unchecked: NSTUB(   0x67430,  additional_version)
 
 /** File I/O **/
-// 1300D, unchecked: NSTUB(0xFE2A43FC,  FIO_CloseFile)                           //   [2000D candidate 0xfe2a3f48: cluster shift -0x4b4 (14/16 aligned, runner-up 4), not exercised]
+NSTUB(0xfe2a3f48,  FIO_CloseFile)                           // 2000D: bracket -0x4B4
 NSTUB(0xfe2a4f1c,  FIO_FindClose)                           // 2000D: probe: same handle
 NSTUB(0xfe2a4e3c,  FIO_FindNextEx)                          // 2000D: probe: handle from FindFirstEx
-// 1300D, unchecked: NSTUB(0xFE2A41AC, _FIO_ReadFile)                            //   [2000D candidate 0xfe2a3cf8: cluster shift -0x4b4 (14/16 aligned, runner-up 4), not exercised]
-// 1300D, unchecked: NSTUB(0xFE2A425C,  FIO_SeekSkipFile)                        // same as SeekFile   [2000D candidate 0xfe2a3da8: cluster shift -0x4b4 (14/16 aligned, runner-up 4), not exercised]
-// 1300D, unchecked: NSTUB(0xFE2A434C, _FIO_WriteFile)                           //   [2000D candidate 0xfe2a3e98: cluster shift -0x4b4 (14/16 aligned, runner-up 4), not exercised]
-// 1300D, unchecked: NSTUB(0xFE2A4C3C, _FIO_CreateDirectory)                     //   [2000D candidate 0xfe2a4788: cluster shift -0x4b4 (14/16 aligned, runner-up 4), not exercised]
-// 1300D, unchecked: NSTUB(0xFE2A4058, _FIO_CreateFile)                          //   [2000D candidate 0xfe2a3ba4: cluster shift -0x4b4 (14/16 aligned, runner-up 4), not exercised]
+NSTUB(0xfe2a3cf8,  _FIO_ReadFile)                           // 2000D: bracket -0x4B4
+NSTUB(0xfe2a3da8,  FIO_SeekSkipFile)                        // 2000D: bracket -0x4B4
+NSTUB(0xfe2a3e98,  _FIO_WriteFile)                          // 2000D: bracket -0x4B4
+NSTUB(0xfe2a4788,  _FIO_CreateDirectory)                    // 2000D: bracket -0x4B4
+NSTUB(0xfe2a3ba4,  _FIO_CreateFile)                         // 2000D: bracket -0x4B4
 NSTUB(0xfe2a4d48,  _FIO_FindFirstEx)                        // 2000D: probe: r0 = "B:/DCIM"
 NSTUB(0xfe2a40c4,  _FIO_GetFileSize)                        // 2000D: probe: r0 = "B:/comstate.to2"
-// 1300D, unchecked: NSTUB(0xFE2A3F9C, _FIO_OpenFile)                            //   [2000D candidate 0xfe2a3ae8: cluster shift -0x4b4 (14/16 aligned, runner-up 4), not exercised]
-// 1300D, unchecked: NSTUB(0xFE2A4104, _FIO_RemoveFile)                          //   [2000D candidate 0xfe2a3c50: cluster shift -0x4b4 (14/16 aligned, runner-up 4), not exercised]
-// 1300D, unchecked: NSTUB(0xFE2A4A74, _FIO_RenameFile)
+NSTUB(0xfe2a3ae8,  _FIO_OpenFile)                           // 2000D: bracket -0x4B4
+NSTUB(0xfe2a3c50,  _FIO_RemoveFile)                         // 2000D: bracket -0x4B4
+NSTUB(0xfe2a45c0,  _FIO_RenameFile)                         // 2000D: bracket -0x4B4
 
 /** GUI **/
-// 1300D, unchecked: NSTUB(   0x3136C,  gui_main_struct)                         // in gui_main_task
-// 1300D, unchecked: NSTUB(   0x3DA5C,  gui_task_list)
-// 1300D, unchecked: NSTUB(0xFE0CCA48,  GUI_ChangeMode)   [2000D: shift guess 0xfe0cba94 WRONG: called from inside _AllocateMemory]
-// 1300D, unchecked: NSTUB(0xFE0CC88C,  GUI_Control)   [2000D candidate 0xfe0cb8d8: cluster shift -0xfb4 (2/4 aligned, runner-up 2), not exercised]
-// 1300D, unchecked: NSTUB(0xFE14EF88,  SetGUIRequestMode)   [2000D candidate 0xfe14e228: called at boot, args inconclusive]
-// 1300D, unchecked: NSTUB(0xFE0CCEFC,  gui_init_end)                            // EndGuiInit   [2000D candidate 0xfe0cbf48: cluster shift -0xfb4 (2/4 aligned, runner-up 2), not exercised]
-// 1300D, unchecked: NSTUB(0xFE0CC4BC,  gui_main_task)                           // message at 0x30, counter at 0x0c
+NSTUB(0x0003136c,  gui_main_struct)                         // 2000D: loaded by gui_main_task
+NSTUB(0x0003d914,  gui_task_list)                           // 2000D: runtime: lock, current(+8) -> gui_task -> date dialog; used by FE3EF330 (1300D addr is WRONG here)
+NSTUB(0xfe0cca74,  GUI_ChangeMode)                          // 2000D: probe: modes 0/1 from PropMgr
+NSTUB(0xfe0cc8b8,  GUI_Control)                             // 2000D: probe: event codes 0x34, 0x54, ...
+NSTUB(0xfe14df34,  SetGUIRequestMode)                       // 2000D: probe: modes 2/3; only user of "SetGUIRequestMode" string
+NSTUB(0xfe0ccf28,  gui_init_end)                            // 2000D: first call in gui_main_task
+NSTUB(0xfe0cc4e8,  gui_main_task)                           // 2000D: entry of task GuiMainTask; loads gui_main_struct, msg at +0x30
 // 1300D, unchecked: NSTUB(0xFE151800,  gui_massive_event_loop)                  // GUI_Control_Post   [2000D candidate 0xfe1537b4: called at boot, args inconclusive]
 // 1300D, unchecked: NSTUB(0xFE2EB7F8,  GUI_SetLvMode)                           /* present on 500D.111, 50D.109, 5D2.212 */
 // NSTUB(    ???,  GUI_SetMovieSize_a)                      /* present on 50D.109 */
@@ -94,7 +94,7 @@ NSTUB(0xfe2a40c4,  _FIO_GetFileSize)                        // 2000D: probe: r0 
 // TODO: Not found direct write it looks like its some kind of serial connection now
 // 1300D, unchecked: NSTUB(0xFE2B3A3C, _audio_ic_read) // FE2B3A3C   [2000D candidate 0xfe2b3a5c: cluster shift +0x20 (2/2 aligned, runner-up 2), not exercised]
 // 1300D, unchecked: NSTUB(0xFE2B36D4, _audio_ic_write) // posible sub_FE2B3A18   [2000D candidate 0xfe2b36f4: called at boot, args inconclusive]
-// 1300D, unchecked: NSTUB(0xFE8C32CC,  audio_thresholds)                        // find "ALV_Initialize", then pointer to "AudioLevel", thresholds are following array of 41 values
+NSTUB(0xfe8e3814,  audio_thresholds)                        // 2000D: ref: exact 0x7fff,0x7213,0x65ab,... sequence
 // 1300D, unchecked: NSTUB(0xFE108A70,  sounddev_active_in)                      // "SoundDevActiveIn"   [2000D candidate 0xfe108aa0: cluster shift +0x30 (3/4 aligned, runner-up 3), not exercised]
 NSTUB(0xfe108690,  sounddev_task)                           // 2000D: entry of task "SoundDevice"
 // NSTUB(    ???, _audio_ic_write_bulk)                     /* present on 6D.116 */
@@ -127,19 +127,19 @@ NSTUB(0xfe1200b0,  dm_set_store_level)                      // 2000D: tail call 
 NSTUB(0xfe120048,  dm_set_print_level)                      // 2000D: tail call from "dmprint" eventproc
 
 /** Dialog API **/
-// 1300D, unchecked: NSTUB(0xFE3F0A44,  dialog_redraw)   [2000D candidate 0xfe3efc10: cluster shift -0xe34 (1/1 aligned, runner-up 1), not exercised]
-// 1300D, unchecked: NSTUB(0xFE2F8BF8,  dialog_set_property_str)   [2000D candidate 0xfe2f7d54: cluster shift -0xea4 (1/1 aligned, runner-up 1), not exercised]
+NSTUB(0xfe3f10cc,  dialog_redraw)                           // 2000D: probe: dialog objects of several screens
+NSTUB(0xfe2f8e14,  dialog_set_property_str)                 // 2000D: probe: (date dialog, id, "yy/mm/dd" / "Los Angeles")
 
 /** Dialog handlers **/
 // 1300D, unchecked: NSTUB(0xFE5AC378,  ErrCardForLVApp_handler)                 // LiveViewErrorApp, as in 60D   [2000D candidate 0xfe5ab3b8: cluster shift -0xfc0 (1/1 aligned, runner-up 1), not exercised]
-// 1300D, unchecked: NSTUB(0xFE45573C,  ErrForCamera_handler)                    // ERR70, ERR80 etc (DlgErrForCamera.c, AJ_DIALOG.HANDLER_DlgErrForCamera.c)   [2000D candidate 0xfe4548ec: cluster shift -0xe50 (1/1 aligned, runner-up 1), not exercised]
+NSTUB(0xfe4561dc,  ErrForCamera_handler)                    // 2000D PROBABLE: function referencing "ErrForCamera", +0xAA0
 // 1300D, unchecked: NSTUB(0xFE488590,  HideUnaviFeedBack_maybe)                 // look for StartUnaviFeedBackTimer   [2000D candidate 0xfe4875d8: cluster shift -0xfb8 (1/1 aligned, runner-up 1), not exercised]
-// 1300D, unchecked: NSTUB(0xFE48D148,  LiveViewApp_handler)
-// 1300D, unchecked: NSTUB(0xFE48D7B4,  LiveViewApp_handler_BL_JudgeBottomInfoDispTimerState)   [2000D candidate 0xfe492c8c: cluster shift +0x54d8 (2/3 aligned, runner-up 1), not exercised]
-// 1300D, unchecked: NSTUB(0xFE48EDF0,  LiveViewApp_handler_end)                 // start of next function   [2000D candidate 0xfe4942c8: cluster shift +0x54d8 (2/3 aligned, runner-up 1), not exercised]
-// 1300D, unchecked: NSTUB(0xFE4A8C24,  PlayMain_handler)   [2000D candidate 0xfe4a812c: cluster shift -0xaf8 (1/1 aligned, runner-up 1), not exercised]
-// 1300D, unchecked: NSTUB(0xFE5E7BDC,  PlayMovieGuideApp_handler)   [2000D candidate 0xfe5e6d7c: cluster shift -0xe60 (1/1 aligned, runner-up 1), not exercised]
-// 1300D, unchecked: NSTUB(0xFE49C300,  ShootOlcApp_handler)   [2000D candidate 0xfe49b32c: cluster shift -0xfd4 (1/1 aligned, runner-up 1), not exercised]
+NSTUB(0xfe48dc04,  LiveViewApp_handler)                     // 2000D: runtime: top dialog handler in LiveView
+NSTUB(0xfe48e270,  LiveViewApp_handler_BL_JudgeBottomInfoDispTimerState)// 2000D: struct: bl to the fn logging "JudgeBottomInfoDispTimerState"
+NSTUB(0xfe48f8ac,  LiveViewApp_handler_end)                 // 2000D: same +0xABC shift as handler, next function start
+NSTUB(0x00000000,  PlayMain_handler)                        // 2000D PLACEHOLDER: not found yet ("No image" playback uses another dialog); 0 = never matches
+NSTUB(0x00000000,  PlayMovieGuideApp_handler)               // 2000D PLACEHOLDER: not found yet; 0 = never matches
+NSTUB(0xfe49cdbc,  ShootOlcApp_handler)                     // 2000D: runtime: top dialog handler on shooting screen
 // NSTUB(    ???,  LiveViewLevelApp_handler)                /* present on 5D3.113 */
 // NSTUB(    ???,  LiveViewShutterApp_handler)              /* present on 6D.113, 650D.104, EOSM.202, 700D.113 */
 // NSTUB(0xFE49AA14,  LiveViewWbApp_handler)                /* present on 7D.203, 5D3.113, 5D2.212 */
@@ -153,7 +153,7 @@ NSTUB(0xfe120048,  dm_set_print_level)                      // 2000D: tail call 
 // 1300D, unchecked: NSTUB(0xFE40EA14,  ReverseDisplay)   [2000D candidate 0xfe40f09c: cluster shift +0x688 (3/3 aligned, runner-up 2), not exercised]
 
 /** EDMAC **/
-// 1300D, unchecked: NSTUB(0xFE29E8A8,  AbortEDmac)   [2000D candidate 0xfe29e3f4: cluster shift -0x4b4 (9/14 aligned, runner-up 5), not exercised]
+NSTUB(0xfe29e3f4,  AbortEDmac)                              // 2000D: bracket -0x4B4
 NSTUB(0xfe29e100,  ConnectReadEDmac)                        // 2000D: probe: (ch 0xd, 6)
 NSTUB(0xfe29e03c,  ConnectWriteEDmac)                       // 2000D: probe: (ch 0x12, 6)
 NSTUB(0xfe29e4bc,  RegisterEDmacAbortCBR)                   // 2000D: probe: (ch, cbr)
@@ -178,24 +178,24 @@ NSTUB(0xfe29f280,  shamem_read)                             // 2000D: probe: r0 
 NSTUB(0xfe120c3c,  call)                                    // 2000D: probe: r0 = "InitializePTPFrameworkController"
 
 /** Events **/
-// 1300D, unchecked: NSTUB(0xFE2C2308,  TryPostEvent)                            /* present on 6D.113, 650D.104, EOSM.202, 700D.113 */   [2000D candidate 0xfe2c1c54: cluster shift -0x6b4 (3/4 aligned, runner-up 2), not exercised]
+NSTUB(0xfe2c232c,  TryPostEvent)                            // 2000D: probe: (handler, obj, event, arg)
 // 1300D, unchecked: NSTUB(0xFE2C2364,  TryPostEvent_end)                        /* present on 6D.113, 650D.104, EOSM.202, 700D.113 */   [2000D candidate 0xfe2c1cb0: called at boot, args inconclusive]
-// 1300D, unchecked: NSTUB(0xFE2BE730,  TryPostStageEvent)                       /* present on 6D.113, 650D.104, EOSM.202, 700D.113 */   [2000D candidate 0xfe2c0214: cluster shift +0x1ae4 (2/2 aligned, runner-up 2), not exercised]
+NSTUB(0xfe2be754,  TryPostStageEvent)                       // 2000D: probe
 // 1300D, unchecked: NSTUB(0xFE2BE78C,  TryPostStageEvent_end)                   /* present on 6D.113, 650D.104, EOSM.202, 700D.113 */   [2000D candidate 0xfe2c0270: cluster shift +0x1ae4 (2/2 aligned, runner-up 2), not exercised]
 
 /** ExMem **/
-// 1300D, unchecked: NSTUB(0xFE122C84,  AddMemoryChunk)   [2000D candidate 0xfe123638: cluster shift +0x9b4 (11/17 aligned, runner-up 4), not exercised]
-// 1300D, unchecked: NSTUB(0xFE125118,  AllocateContinuousMemoryResource)        // m_pfContAllocMemoryCBR
-// 1300D, unchecked: NSTUB(0xFE1250CC,  AllocateMemoryResource)                  // m_pfAllocMemoryCBR
+NSTUB(0xfe123638,  AddMemoryChunk)                          // 2000D: bracket +0x9B4
+NSTUB(0xfe125ae8,  AllocateContinuousMemoryResource)        // 2000D: ref: only user of "m_pfContAllocMemoryCBR"
+NSTUB(0xfe125a9c,  AllocateMemoryResource)                  // 2000D: ref: only user of "m_pfAllocMemoryCBR" assert
 NSTUB(0xfe122bb4,  CreateMemoryChunk)                       // 2000D: probe: same args, called by CreateMemorySuite
 NSTUB(0xfe123398,  CreateMemorySuite)                       // 2000D: probe: (0x40a24580, 0x25800, 0)
 NSTUB(0xfe1231cc,  DeleteMemorySuite)                       // 2000D: probe: suite 0xc3e58
-// 1300D, unchecked: NSTUB(0xFE125230,  FreeMemoryResource)                      // m_pfFreeMemoryCBR
+NSTUB(0xfe125c00,  FreeMemoryResource)                      // 2000D: ref: only user of "m_pfFreeMemoryCBR"
 NSTUB(0xfe123708,  GetFirstChunkFromSuite)                  // 2000D: probe: suite 0xc3e58
-// 1300D, unchecked: NSTUB(0xFE1227A4,  GetMemoryAddressOfMemoryChunk)           // AJ_PackMemory_PackMem.c_IsChunkSignature   [2000D candidate 0xfe123158: cluster shift +0x9b4 (11/17 aligned, runner-up 4), not exercised]
+NSTUB(0xfe123158,  GetMemoryAddressOfMemoryChunk)           // 2000D: bracket +0x9B4
 NSTUB(0xfe123e94,  GetNextMemoryChunk)                      // 2000D: probe: (suite 0xc3e58, chunk 0xc3e80)
-// 1300D, unchecked: NSTUB(0xFE0D5554,  SRM_AllocateMemoryResourceFor1stJob)   [2000D candidate 0xfe0d6570: cluster shift +0x101c (2/2 aligned, runner-up 2), not exercised]
-// 1300D, unchecked: NSTUB(0xFE0D7E54,  SRM_FreeMemoryResourceFor1stJob)   [2000D candidate 0xfe0d6f50: cluster shift -0xf04 (1/1 aligned, runner-up 1), not exercised]
+NSTUB(0xfe0d54fc,  SRM_AllocateMemoryResourceFor1stJob)     // 2000D: struct: call + take_semaphore + "...1stJob failed" message
+NSTUB(0xfe0d7d70,  SRM_FreeMemoryResourceFor1stJob)         // 2000D PROBABLE: (buf,0,0) callee only from the 1stJob module
 
 /** GUI for old cameras **/
 // 1300D, unchecked: NSTUB(   0x36CAC,  gui_timer_struct)                        // in GUI_Control_Post
@@ -210,10 +210,10 @@ NSTUB(0xfe123e94,  GetNextMemoryChunk)                      // 2000D: probe: (su
 // NSTUB(    ???,  gui_timer_something)                     /* present on 7D.203, 500D.111, 50D.109, 5D2.212 */
 
 /** GUI timers **/
-// 1300D, unchecked: NSTUB(0xFE482FE0,  CancelDateTimer)                         /* present on 7D.203, 6D.113, 5D3.113 */   [2000D candidate 0xfe481ff4: called at boot, args inconclusive]
+NSTUB(0xfe483a9c,  CancelDateTimer)                         // 2000D PROBABLE: +0xABC region shift, function start; not exercised
 NSTUB(0xfe129a48,  CancelTimer)                             // 2000D: probe: r0 = timer id
 NSTUB(0xfe1216a0,  SetHPTimerAfterNow)                      // 2000D: probe: (1000 us, cbr, cbr, arg)
-// 1300D, unchecked: NSTUB(0xFE120DDC,  SetHPTimerNextTick)
+NSTUB(0xfe121790,  SetHPTimerNextTick)                      // 2000D: bracket +0x9B4
 NSTUB(0xfe129978,  SetTimerAfter)                           // 2000D: probe: (delay, cbr, cbr, arg)
 
 /** H264 Encoder **/
@@ -234,18 +234,18 @@ NSTUB(   0x310a0,  pre_isr_hook)                            // 2000D: IRQ handle
 
 /** Making the card bootable **/
 // 1300D, unchecked: NSTUB(   0x499a0,  cf_device)
-// 1300D, unchecked: NSTUB(   0x499C4,  sd_device)                               // in sdReadBlk
-// 1300D, unchecked: NSTUB(0xFE543BD0,  fsuDecodePartitionTable)   [2000D candidate 0xfe542c94: cluster shift -0xf3c (1/1 aligned, runner-up 1), not exercised]
+NSTUB(0x000490f8,  sd_device)                               // 2000D: runtime: sd_device[1]->read_block = sdReadBlk FE636AC8 (1300D addr is WRONG here)
+NSTUB(0xfe544fc8,  fsuDecodePartitionTable)                 // 2000D: struct: decodes MBR entry (status, CHS, type, LBA)
 
 /** Memory allocation **/
-// 1300D, unchecked: NSTUB(0xFE1278C8,  GetMemoryInformation)                    // called from AllocateMemory
-// 1300D, unchecked: NSTUB(0xFE127874,  GetSizeOfMaxRegion)
+NSTUB(0xfe128298,  GetMemoryInformation)                    // 2000D: struct: called from _AllocateMemory (+0x9D0)
+NSTUB(0xfe128244,  GetSizeOfMaxRegion)                      // 2000D: struct: called from _AllocateMemory (+0x9D0)
 NSTUB(0xfe1284f8,  _AllocateMemory)                         // 2000D: probe: r0 = sizes 0x418, 0x11e8
 NSTUB(0xfe128894,  _FreeMemory)                             // 2000D: probe: r0 = heap pointers
-// 1300D, unchecked: NSTUB(0xFE2C2528, _alloc_dma_memory)   [2000D candidate 0xfe2c1e74: cluster shift -0x6b4 (3/4 aligned, runner-up 2), not exercised]
-// 1300D, unchecked: NSTUB(0xFE2C6C04, _free)   [2000D: shift guess 0xfe2c671c WRONG: called with a printf format in r1: sprintf-like]
-// 1300D, unchecked: NSTUB(0xFE2C2564, _free_dma_memory)   [2000D candidate 0xfe2c1eb0: cluster shift -0x6b4 (3/4 aligned, runner-up 2), not exercised]
-// 1300D, unchecked: NSTUB(0xFE2C6BAC, _malloc)                                  // maybe its better to use Allocate/Free?   [2000D candidate 0xfe2c66c4: cluster shift -0x4e8 (2/2 aligned, runner-up 2), not exercised]
+NSTUB(0xfe2c254c,  _alloc_dma_memory)                       // 2000D: struct: AllocateMemory(size+0x40), align, |0x40000000
+NSTUB(0xfe2c6c28,  _free)                                   // 2000D: probe: frees memory-suite objects
+NSTUB(0xfe2c2588,  _free_dma_memory)                        // 2000D: struct: &~0x40000000, header, b _FreeMemory
+NSTUB(0xfe2c6bd0,  _malloc)                                 // 2000D: probe: sizes from kernel allocator
 // NSTUB(    ???,  free_dma_memory)                         /* present on 7D_MASTER.203 */
 
 /** Message queues **/
@@ -272,7 +272,7 @@ NSTUB(0x0000be28,  ReleaseRecursiveLock)                    // 2000D: probe: loc
 
 /** ResLock **/
 NSTUB(0xfe2a21b4,  CreateResLockEntry)                      // 2000D: probe: (list, 0x27)
-// 1300D, unchecked: NSTUB(0xFE2A2BA8,  LockEngineResources)
+NSTUB(0xfe2a26f4,  LockEngineResources)                     // 2000D: bracket -0x4B4
 NSTUB(0xfe2a282c,  UnLockEngineResources)                   // 2000D: probe: ImgPlayDrv after EDMAC transfer
 
 /** Semaphores **/
@@ -281,7 +281,7 @@ NSTUB(0x00003358,  give_semaphore)                          // 2000D: probe: sem
 NSTUB(0x00003270,  take_semaphore)                          // 2000D: probe: same sem id 0x180014 as give_semaphore
 
 /** Task info **/
-// 1300D, unchecked: NSTUB(   0x358E8,  task_max)
+NSTUB(0x000358e8,  task_max)                                // 2000D: read by init_task
 
 NSTUB(    0x24C4,  _get_task_info_by_id)                    // 2000D: reads current_task 0x31170
 NSTUB(   0x31170,  current_task)                            // 2000D: read by _get_task_info_by_id; holds task ptr at init_task
@@ -307,7 +307,7 @@ NSTUB(     0x640,  current_interrupt)                       // 2000D: IRQ handle
 NSTUB(    0x3780,  msleep)                                  // 2000D: gdb: r0 = 10, 30 (ms)
 
 /** Tasks **/
-// 1300D, unchecked: NSTUB(   0x35924,  task_dispatch_hook)  // task_trampoline -> last call -> last non-empty BL -> one indirect call here
+NSTUB(0x0003592c,  task_dispatch_hook)                      // 2000D: context switch (0x1D04 etc.) loads, tests and calls *(0x3592C); 1300D 0x35924 is NOT the hook here
 NSTUB(    0x38FC,  task_create)                             // 2000D: gdb: r0 = "PowerMgr", "Startup", "PropMgr"...
 NSTUB(0x000041dc,  task_trampoline)                         // 2000D: every task starts here (lr = stack fill 0x19980218)
 // NSTUB(    ???,  current_task_ctx)                        /* present on 7D.203 */
@@ -315,8 +315,8 @@ NSTUB(0x000041dc,  task_trampoline)                         // 2000D: every task
 
 /** Misc **/
 // 1300D, unchecked: NSTUB(   0x6D418,  lv_path_struct)                          // first arg of SelectPathDriveMode
-// 1300D, unchecked: NSTUB(0xFE11ABF0,  LoadCalendarFromRTC)   [2000D candidate 0xfe11b5a4: cluster shift +0x9b4 (5/5 aligned, runner-up 3), not exercised]
-// 1300D, unchecked: NSTUB(0xFE2BC8A4,  vsnprintf)   [2000D candidate 0xfe2bba58: cluster shift -0xe4c (1/1 aligned, runner-up 1), not exercised]
+NSTUB(0xfe11b5a4,  LoadCalendarFromRTC)                     // 2000D: probe: r0 = calendar struct, from date dialog
+NSTUB(0xfe2bc8c8,  vsnprintf)                               // 2000D: probe: called by DryosDebugMsg as (buf, size, fmt, va)
 //NSTUB(0xFE0180A8,  _print_serial)
 //NSTUB( 0xff37aee4, ChangeHDMIOutputSizeToFULLHD)
 //NSTUB( 0xff37b174, ChangeHDMIOutputSizeToVGA)
